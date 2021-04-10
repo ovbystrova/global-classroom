@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from __future__ import print_function
 import sys, pickle
 
 # This is the filename of the model file
@@ -5,7 +7,7 @@ model_file = sys.argv[1]
 mf = open(model_file, 'rb')
 
 # Load the unigram and bigram probabilities from the model file
-(unigrams, bigrams) = pickle.load(mf)
+(unigrams, bigrams) = pickle.load(mf, encoding='utf-8')
 
 # Initialise the probability of the start of the sentence.
 unigrams['#'] = 0.0
@@ -57,7 +59,6 @@ for line in sys.stdin.readlines():
 				# Append to output
 				output.append(pred)
 				hits += 1
-#				print('!', first, '→', pred,'|||', unigrams[pred], file=sys.stderr)
 			else:
 				# Otherwise append each individual character
 				output += [c for c in second]

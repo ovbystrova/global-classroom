@@ -1,4 +1,6 @@
-import sys 
+# -*- coding: utf-8 -*-
+from __future__ import print_function
+import sys
 
 ref_file = open(sys.argv[1])
 tst_file = open(sys.argv[2])

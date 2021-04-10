@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import sys, pickle
 
 # This is the training data
