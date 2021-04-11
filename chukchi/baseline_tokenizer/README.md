@@ -13,13 +13,13 @@ Written 33724 unigrams and 107835 bigrams to model.dat.
 And then you can run it using:
 
 ```bash
-$ python3 predict.py model.dat < ../data/dev.tsv > output.tsv
+$ python3 predict.py model.dat < ../data/test/test.tsv > output.tsv
 ```
 
 BIGRAMS RESULT
 
 ```bash
-$ python3 ../evaluate.py ../data/dev.tsv output.tsv 
+$ python3 ../evaluate.py ../data/test/test.tsv output.tsv 
 Characters: 37927
 Tokens: 8374
 Clicks: 36240
@@ -30,7 +30,7 @@ Clicks/Character: 0.9555198143802568
 
 TRIGRAMS RESULT
 ```bash
-$ python3 ../evaluate.py ../data/dev.tsv output.tsv 
+$ python3 ../evaluate.py ../data/test/test.tsv output.tsv 
 Characters: 37927
 Tokens: 8374
 Clicks: 13878
@@ -40,7 +40,7 @@ Clicks/Character: 0.3659134653413136
 
 TRIGRAMS RESULT ON DEV+TRAIN SET
 ```bash
-$ python3 ../evaluate.py ../data/dev.tsv output.tsv 
+$ python3 ../evaluate.py ../data/test/test.tsv output.tsv 
 Characters: 37927
 Tokens: 8374
 Clicks: 13918
