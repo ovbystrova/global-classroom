@@ -13,13 +13,13 @@ Written 33724 unigrams and 107835 bigrams to model.dat.
 And then you can run it using:
 
 ```bash
-$ python3 predict.py model.dat < ../data/dev.tsv > output.tsv
+$ python3 predict.py model.dat < ../data/test/test.tsv > output.tsv
 ```
 
 RESULTS 
 
 ```bash
-$ python3 ../evaluate.py ../data/dev.tsv output.tsv 
+$ python3 ../evaluate.py ../data/test/test.tsv output.tsv 
 Characters: 37927
 Tokens: 8374
 Clicks: 30340
