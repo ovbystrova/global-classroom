@@ -6,7 +6,7 @@ training_file = sys.argv[1]
 # This is the filename that we will save the model in
 model_file = sys.argv[2]
 
-with open('tokenizer.pickle', 'rb') as f:
+with open("tokenizer.pickle", 'rb') as f:
     tokenizer = pickle.load(f)
 
 # This is a list of sentences in the training data
@@ -39,7 +39,7 @@ for line in open(training_file).readlines():
     # The tokens are in the first column
     tokens = tokenizer.encode(row[0]).ids
     # Add the tokens to the list of sentences, with a beginning of sentence and an end of sentence marker
-    corpus.append([0, 0, 0] + tokens + [0, 0, 0])
+    corpus.append([0, 0, 0, 0] + tokens + [0, 0, 0, 0])
 
 # Collect unigram counts
 n_tokens = 0  # Number of tokens
@@ -201,12 +201,77 @@ for token1 in quadgram_counts:
                     n_quadgrams += 1
                     
                 quadgrams[token1][token2][token3][token4] = quadgram_counts[token1][token2][token3][token4] / token3_total
+                
+# counting five-grams
+for sent in corpus:
+    # For each number in the range of 0..length of sentence - 3
+    for i in range(0, len(sent) - 4):
+        # The first word is the word at i
+        w1 = sent[i]
+        # The second word is the word at i+1
+        w2 = sent[i + 1]
+        # If we haven't seen the first word before, initialise a new dictionary for the second word
+        w3 = sent[i + 2]
+        w4 = sent[i + 3]
+        w5 = sent[i + 4]
 
+        if w1 not in fivegram_counts:
+            fivegram_counts[w1] = {}
+        # If we haven't seen the second word before, initialise the count to 0
+        if w2 not in fivegram_counts[w1]:
+            fivegram_counts[w1][w2] = {}
+        if w3 not in fivegram_counts[w1][w2]:
+            fivegram_counts[w1][w2][w3] = {}
+        if w4 not in fivegram_counts[w1][w2][w3]:
+            fivegram_counts[w1][w2][w3][w4] = {}
+        if w5 not in fivegram_counts[w1][w2][w3][w4]:
+            fivegram_counts[w1][w2][w3][w4][w5] = 0.0
+        # Increment the count
+        fivegram_counts[w1][w2][w3][w4][w5] += 1
+        
+        
+
+# Quadgram probabilities
+n_fivegrams = 0
+# Estimate trigram probabilities
+# For each of the first words
+for token1 in fivegram_counts:
+    # If we haven't seen it before, initialise it
+    if token1 not in fivegrams:
+        fivegrams[token1] = {}
+    # Find the total frequency of all of the words that can go after this word
+    # token_total = sum(trigram_counts[token1].values())
+    # For each of the second parts of the bigram
+    for token2 in fivegram_counts[token1]:
+        # If we haven't seen the  second part before, initialise it to 0
+        if token2 not in fivegrams[token1]:
+            fivegrams[token1][token2] = {}
+        
+        for token3 in fivegram_counts[token1][token2]:
+            if token3 not in fivegrams[token1][token2]:
+                fivegrams[token1][token2][token3] = {}
+                            
+            for token4 in fivegram_counts[token1][token2][token3]:
+                if token4 not in fivegrams[token1][token2][token3]:
+                    fivegrams[token1][token2][token3][token4] = {}
+                    
+                token4_total = sum(fivegram_counts[token1][token2][token3][token4].values())
+                
+                for token5 in fivegram_counts[token1][token2][token3][token4]:
+                    if token5 not in fivegrams[token1][token2][token3][token4]:
+                        fivegrams[token1][token2][token3][token4][token5] = 0.0
+                        n_fivegrams += 1
+                    
+                fivegrams[token1][token2][token3][token4][token5] = \
+                fivegram_counts[token1][token2][token3][token4][token5] / token4_total
+                
+                
 # Write out model
 mf = open(model_file, 'wb')
-pickle.dump((unigrams, bigrams, trigrams, quadgrams), mf)
-print('Written %d unigrams, %d bigrams, %d trigrams and %d quadgrams to %s.' % (len(unigrams.keys()),
+pickle.dump((unigrams, bigrams, trigrams, quadgrams, fivegrams), mf)
+print('Written %d unigrams, %d bigrams, %d trigrams, %d quadgrams and %d fivegrams to %s.' % (len(unigrams.keys()),
                                                                       n_bigrams,
                                                                       n_trigrams,
                                                                       n_quadgrams,
+                                                                      n_fivegrams,
                                                                       model_file))
