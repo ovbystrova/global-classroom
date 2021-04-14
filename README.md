@@ -8,7 +8,7 @@
 ## Project details
 Our submission is located at chukchi/full_model
 ### Method TL;DR
-4-gram language model with sentencepiece tokenization
+5-gram language model with sentencepiece tokenization
 
 ### Requirements
 ```tokenizers == 0.10.2```
@@ -23,7 +23,7 @@ Our submission is located at chukchi/full_model
 ```
 Characters: 37927
 Tokens: 8374
-Clicks: 30754
-Clicks/Token: 3.6725579173632674
-Clicks/Character: 0.8108735201835104
+Clicks: 35386
+Clicks/Token: 4.225698590876522
+Clicks/Character: 0.9330028739420466
 ```
