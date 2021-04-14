@@ -1,26 +1,29 @@
-# Global Classroom: Indiana University and Higher School of Economics
+# Global Classroom: Indiana University and Higher School of Economics - Predictive text for Chuckchi
 
-Welcome to the GitHub repository for the Indiana University and Higher School of Economics
-Global Classroom on Computational Linguistics and Machine Learning. Here you will find details
-about the projects you can participate in. 
+## Team Info
+- Olga Bystorva
+- Liliya Kazakova
+- Daniil Larionov
 
-## Projects
+## Project details
+Our submission is located at chukchi/baseline_tokenizer
+### Method TL;DR
+Trigram language model with sentencepiece tokenization
 
-1. [Tone prediction and orthographic conversion for Basaa](basaa/)
-2. [Predictive text for Chukchi](chukchi/)
-3. [Morphological segmentation for Kʼicheʼ](kʼicheʼ/)
+### Requirements
+tokenizers == 0.10.2
 
-## Baselines
+### Reproduction
+0. (optional, if something isn't working) Recreate tokenizer pickle file using tokenizer.ipynb notebook
+1. Train the model: ```python train_trigrams.py ../data/train.tsv model.dat```
+2. Run predictions: ```python predict_trigrams.py model.dat < ../data/test/test.tsv > output.tsv```
+3. Evalute predictions ```python ../evaluate.py ../data/test/test.tsv output.tsv ```
 
-Each project has a simple baseline system written to demonstrate how to process and evaluate
-the data. The baselines are designed so as to not use any external libraries to make them easy
-to run and get started with. 
-
-## Teams
-
-Express your interest in participating by completing [this form](https://dudle.inf.tu-dresden.de/iu-hse-global-classroom-project/). The 
-deadline is the 25th January. 
-
-## Submission
-
-Paper submission via [EasyChair](https://easychair.org/conferences/?conf=ling545gc). 
+### Results
+```
+Characters: 37927
+Tokens: 8374
+Clicks: 13918
+Clicks/Token: 1.6620491999044662
+Clicks/Character: 0.36696812297307985
+```
